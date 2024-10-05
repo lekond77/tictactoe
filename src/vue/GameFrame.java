@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -31,7 +33,6 @@ public class GameFrame extends JFrame {
 		contentPane.setLayout(new GridLayout(3, 3));
 		contentPane.setForeground(new Color(0, 0, 0));
 		contentPane.setBackground(new Color(192, 192, 192));
-		
 
 		setContentPane(contentPane);
 
@@ -102,6 +103,18 @@ public class GameFrame extends JFrame {
 	 * }
 	 */
 
+	private void restartGame(JButton[][] buttons) {
+
+		for (int i = 0; i < buttons.length; i++) {
+			for (int j = 0; j < buttons[i].length; j++) {
+
+				buttons[i][j].setText("");
+
+			}
+		}
+		counter = 0;
+	}
+
 	private class ButtonClickListener implements ActionListener {
 
 		public ButtonClickListener() {
@@ -109,11 +122,12 @@ public class GameFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (gameEnded) {
-				System.out.println("Game end");
+		/*	if (gameEnded) {
+				JOptionPane.showMessageDialog(null, "Game end !");
+				restartGame(buttons);
 				return;
 			}
-
+*/
 			JButton button = (JButton) e.getSource();
 			if (!button.getText().equals("")) {
 				return;
@@ -125,13 +139,16 @@ public class GameFrame extends JFrame {
 			boolean isWinner = checkWinner();
 			if (isWinner) {
 				JOptionPane.showMessageDialog(null, person + " win");
-				gameEnded = true;
+				restartGame(buttons);
+				//gameEnded = true;
 			} else {
 				person = (person.equals("X")) ? "O" : "X";
 			}
 
-			if (!gameEnded && counter == buttons[0].length * buttons.length - 1) {
-				JOptionPane.showMessageDialog(null, person + "Game end, no winner !");
+			if (counter == buttons[0].length * buttons.length - 1) {
+				JOptionPane.showMessageDialog(null, "Game end, no winner !");
+				restartGame(buttons);
+				//gameEnded = true;
 				return;
 			}
 
